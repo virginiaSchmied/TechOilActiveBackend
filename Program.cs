@@ -9,6 +9,9 @@ using Microsoft.SqlServer;
 using TechOilActive.Controllers;
 using TechOilActive.Interfaces;
 using TechOilActive.Repositorios;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace TechOilActive
 {
@@ -17,6 +20,24 @@ namespace TechOilActive
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidAudience = jwtSettings.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                    };
+                });
+
+            builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
             // Add services to the container.
             builder.Services.AddAuthorization();
@@ -36,6 +57,7 @@ namespace TechOilActive
             builder.Services.AddScoped<InterfaceProyectos, RepositorioProyecto>();
             builder.Services.AddScoped<InterfaceTrabajos, RepositorioTrabajo>();
             builder.Services.AddScoped<InterfaceServicios, RepositorioServicio>();
+            builder.Services.AddScoped<InterfaceUsuarios, RepositorioUsuario>();
 
             var app = builder.Build();
 

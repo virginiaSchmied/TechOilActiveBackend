@@ -18,7 +18,10 @@ namespace TechOilActive.Repositorios
 
         public Trabajo GetTrabajoById(int id)
         {
-            return _dbContext.Trabajo.FirstOrDefault(p => p.codTrabajo == id);
+
+            Trabajo trabajo = _dbContext.Trabajo.FirstOrDefault(p => p.codTrabajo == id);
+
+            return trabajo;
         }
 
         public void AddTrabajo(Trabajo trabajo)

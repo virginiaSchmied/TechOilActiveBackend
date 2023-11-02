@@ -18,7 +18,10 @@ namespace TechOilActive.Repositorios
 
         public Proyecto GetProyectoById(int id)
         {
-            return new Proyecto();
+
+            Proyecto proyecto = _dbContext.Proyecto.FirstOrDefault(p => p.codProyecto == id);
+
+            return proyecto;
         }
 
         public void AddProyecto(Proyecto proyecto)

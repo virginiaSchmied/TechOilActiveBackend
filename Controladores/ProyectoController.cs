@@ -39,7 +39,7 @@ namespace TechOilActive.Controllers
             var proyecto = RepositorioProyecto.GetProyectoById(id);
             if (proyecto == null)
             {
-                return NotFound("No hay proyectos");
+                return NotFound("No existe este proyecto");
             }
             return Ok(proyecto);
         }
@@ -57,13 +57,13 @@ namespace TechOilActive.Controllers
             var proyecto = RepositorioProyecto.GetProyectoById(id);
             if (proyecto == null)
             {
-                return NotFound("No hay proyectos");
+                return NotFound("No existe este proyecto");
             }
             proyecto.nombre = updatedProyecto.nombre;
             proyecto.direccion = updatedProyecto.direccion;
             proyecto.estado = updatedProyecto.estado;
             RepositorioProyecto.UpdateProyecto(proyecto);
-            return NoContent();
+            return Ok("Modificado exitosamente");
         }
 
         [HttpDelete("{id}")]

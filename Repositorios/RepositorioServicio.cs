@@ -18,7 +18,10 @@ namespace TechOilActive.Repositorios
 
         public Servicio GetServicioById(int id)
         {
-            return new Servicio();
+
+            Servicio servicio = _dbContext.Servicio.FirstOrDefault(p => p.codServicio == id);
+
+            return servicio;
         }
 
         public void AddServicio(Servicio servicio)

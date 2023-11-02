@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace TechOilActive.Models
 {
@@ -6,12 +7,13 @@ namespace TechOilActive.Models
     {
         [Key]
         public int codProyecto { get; set; }
+        [Required]
+        public string nombre { get; set; }
+        [Required]
+        public string direccion { get; set; }
+        [BindProperty]
+        public int estado { get; set; }
 
-        public string? nombre { get; set; }
-
-        public string? direccion { get; set; }
-
-        public int? estado { get; set; }
 
     }
 }
